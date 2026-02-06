@@ -1,0 +1,294 @@
+====================================================================
+        FLIGHT MANAGEMENT SYSTEM - PROJECT SUMMARY
+====================================================================
+
+PROJECT STATUS: ✓ COMPLETE
+
+====================================================================
+1. PROJECT STRUCTURE
+====================================================================
+
+All required packages and classes have been created:
+
+✓ com.wipro.flight.bean.Flight          - Bean class
+✓ com.wipro.flight.dao.FlightDAO        - Data Access Object
+✓ com.wipro.flight.service.FlightService - Service Layer
+✓ com.wipro.flight.util.DBUtil          - Database Connection
+
+Additionally created:
+✓ com.wipro.flight.main.TestFlightManagement - Test class (optional)
+
+====================================================================
+2. CLASS DETAILS
+====================================================================
+
+A. Flight.java (Bean Class)
+----------------------------
+Package: com.wipro.flight.bean
+
+Attributes:
+- String flightID          (Auto-generated: 2 letters + 5 digits)
+- String flightName        (Flight name)
+- String source            (Starting city)
+- String destination       (Destination city)
+- int economySeats         (Economy seats count)
+- int businessSeats        (Business seats count)
+- int firstClassSeats      (First class seats count)
+- String flightType        (International/Domestic)
+
+Methods:
+- Getters and Setters for all attributes
+- Default constructor
+- Parameterized constructor
+
+B. DBUtil.java (Database Utility)
+----------------------------------
+Package: com.wipro.flight.util
+
+Methods:
+- public static Connection getDBConnection()
+  → Establishes connection to Oracle Database
+  → Credentials: B3980612345/B3980612345
+  → Service: XE, Port: 1521
+
+C. FlightDAO.java (Data Access Object)
+---------------------------------------
+Package: com.wipro.flight.dao
+
+Methods:
+1. public String getComputedId(String name, String seqName)
+   Purpose: Generate Flight ID
+   Logic:
+   - Validates input parameters (null check)
+   - Checks if name has at least 2 characters
+   - Validates first 2 characters are alphabetic
+   - Verifies sequence name is "FlightId_Seq"
+   - Generates ID: First 2 letters (uppercase) + 5 digits from sequence
+   Returns: Generated ID, "FAIL", or "INVALID_INPUT"
+
+2. public String addFlight(Flight flight)
+   Purpose: Insert flight record into database
+   Logic:
+   - Prepares INSERT statement
+   - Sets all flight attributes
+   - Executes the statement
+   - Returns "SUCCESS" or "FAIL"
+
+D. FlightService.java (Service Layer)
+--------------------------------------
+Package: com.wipro.flight.service
+
+Methods:
+1. public String createFlight(Flight flight)
+   Purpose: Complete flight creation workflow
+   Logic:
+   - Validates flight object (null check)
+   - Calls getComputedId to generate flight ID
+   - Validates generated ID
+   - Sets flight ID in flight object
+   - Calls addFlight to insert record
+   - Returns "SUCCESS", "FAIL", or "INVALID_INPUT"
+
+====================================================================
+3. DATABASE SCHEMA
+====================================================================
+
+User Credentials:
+-----------------
+Username: B3980612345
+Password: B3980612345
+Service:  XE
+Port:     1521
+
+Table: Flight_Tbl
+-----------------
+FlightId       VARCHAR2(10)   PRIMARY KEY
+FlightName     VARCHAR2(20)   NOT NULL
+Source         VARCHAR2(25)   NOT NULL
+Destination    VARCHAR2(25)   NOT NULL
+EconomySeats   NUMBER(2)      NOT NULL
+BusinessSeats  NUMBER(2)      NOT NULL
+FirstClassSeats NUMBER(2)     NOT NULL
+FlightType     VARCHAR2(20)   NOT NULL
+
+Sequence: FlightId_Seq
+----------------------
+Start Value:  10000
+Increment:    1
+Max Value:    99999
+
+====================================================================
+4. FLIGHT ID GENERATION LOGIC
+====================================================================
+
+Format: [2 Letters][5 Digits]
+
+Example:
+- Flight Name: "Indigo"    → Flight ID: "IN10000"
+- Flight Name: "SpiceJet"  → Flight ID: "SP10001"
+- Flight Name: "Emirates"  → Flight ID: "EM10002"
+
+Algorithm:
+1. Extract first 2 characters from flight name
+2. Convert to uppercase
+3. Get next value from FlightId_Seq
+4. Format sequence value as 5-digit string (with leading zeros)
+5. Concatenate: [2 letters] + [5 digits]
+
+====================================================================
+5. VALIDATION RULES
+====================================================================
+
+getComputedId() Validations:
+- name is null              → Return "FAIL"
+- seqName is null           → Return "FAIL"
+- name.length() < 2         → Return "INVALID_INPUT"
+- First 2 chars not letters → Return "INVALID_INPUT"
+- seqName != "FlightId_Seq" → Return "INVALID_INPUT"
+- Database error            → Return "FAIL"
+- Success                   → Return generated ID
+
+createFlight() Validations:
+- flight object is null     → Return "FAIL"
+- ID generation failed      → Return "INVALID_INPUT"
+- Insertion failed          → Return "FAIL"
+- Success                   → Return "SUCCESS"
+
+====================================================================
+6. DATABASE SETUP STEPS
+====================================================================
+
+Quick Setup:
+------------
+1. Open Command Prompt as Administrator
+2. Run: sqlplus / as sysdba
+3. Execute: CREATE USER B3980612345 IDENTIFIED BY B3980612345;
+4. Execute: GRANT connect, resource TO B3980612345;
+5. Execute: COMMIT;
+6. Execute: EXIT;
+7. Run: sqlplus B3980612345/B3980612345@XE
+8. Run the SQL script from database_setup.sql
+9. Execute: COMMIT;
+10. Execute: EXIT;
+
+Automated Setup:
+----------------
+Run: sqlplus / as sysdba @database_setup.sql
+
+For detailed instructions, see: DATABASE_SETUP_GUIDE.md
+
+====================================================================
+7. TESTING SCENARIOS
+====================================================================
+
+Test Cases Covered by Assessment Engine:
+1. FlightId computation for valid inputs
+2. FlightId computation for invalid sequence name
+3. FlightId computation with invalid name
+4. FlightId computation with valid values
+5. addFlight method with invalid values
+6. createFlight method with invalid values
+7. createFlight method for null values
+8. createFlight method with valid values
+
+====================================================================
+8. PROJECT SUBMISSION
+====================================================================
+
+Requirements:
+-------------
+1. Zip ONLY the src folder
+2. Name: <employee_number>.zip (e.g., 12345.zip)
+3. Extension must be .zip (not .7z or .rar)
+4. Do NOT include bin, lib, or other folders
+
+Verification:
+-------------
+Extract the zip file and verify it contains:
+src/
+└── com/
+    └── wipro/
+        └── flight/
+            ├── bean/
+            ├── dao/
+            ├── service/
+            └── util/
+
+For detailed instructions, see: SUBMISSION_GUIDE.md
+
+====================================================================
+9. IMPORTANT NOTES
+====================================================================
+
+✓ All package names match exactly as specified
+✓ All class names match exactly as specified
+✓ All method names match exactly as specified
+✓ All variable names match exactly as specified (case-sensitive)
+✓ No System.exit(0) in the code
+✓ Database credentials are correct
+✓ Sequence name is correct: FlightId_Seq
+✓ Table name is correct: Flight_Tbl
+✓ Code is simple and straightforward (no complex logic)
+
+====================================================================
+10. COMMON MISTAKES TO AVOID
+====================================================================
+
+✗ Wrong package names (case matters!)
+✗ Wrong method signatures
+✗ Wrong variable names (flightID vs flightId)
+✗ Using wrong sequence name
+✗ Using wrong table name
+✗ Incorrect return values ("SUCCESS", "FAIL", "INVALID_INPUT")
+✗ Including System.exit(0)
+✗ Wrong database credentials
+✗ Submitting entire project instead of just src folder
+✗ Wrong zip file format or name
+
+====================================================================
+11. PROJECT FILES
+====================================================================
+
+Source Code:
+- src/com/wipro/flight/bean/Flight.java
+- src/com/wipro/flight/dao/FlightDAO.java
+- src/com/wipro/flight/service/FlightService.java
+- src/com/wipro/flight/util/DBUtil.java
+- src/com/wipro/flight/main/TestFlightManagement.java (optional)
+
+Database:
+- database_setup.sql
+
+Documentation:
+- README.md
+- DATABASE_SETUP_GUIDE.md
+- SUBMISSION_GUIDE.md
+- PROJECT_SUMMARY.txt (this file)
+
+====================================================================
+12. NEXT STEPS
+====================================================================
+
+1. Set up Oracle Database using database_setup.sql
+2. Download and add Oracle JDBC driver (ojdbc.jar) to classpath
+3. Test the application locally
+4. Verify all test cases pass
+5. Create zip file with src folder only
+6. Name it <employee_number>.zip
+7. Upload to PBLApp
+8. Click "Compile & Test"
+9. Fix any errors and resubmit
+10. Click "Final Submission" when all tests pass
+
+====================================================================
+13. CONTACT INFORMATION
+====================================================================
+
+PBLApp URL: https://talentnext.wipro.com/PBLApp
+Email:      ksdhande_it@jspmrscoe.edu.in
+PBLApp ID:  2520062
+Password:   TalentNext##123
+
+====================================================================
+                        END OF SUMMARY
+====================================================================

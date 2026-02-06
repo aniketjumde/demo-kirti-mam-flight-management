@@ -1,0 +1,168 @@
+╔═══════════════════════════════════════════════════════════════════════╗
+║       FLIGHT MANAGEMENT SYSTEM - QUICK REFERENCE CARD                 ║
+╚═══════════════════════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ DATABASE CREDENTIALS                                                │
+├─────────────────────────────────────────────────────────────────────┤
+│ Username:     B3980612345                                          │
+│ Password:     B3980612345                                          │
+│ Service Name: XE                                                    │
+│ Port:         1521                                                  │
+│ JDBC URL:     jdbc:oracle:thin:@localhost:1521:XE                  │
+└─────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ PACKAGES & CLASSES                                                  │
+├─────────────────────────────────────────────────────────────────────┤
+│ com.wipro.flight.bean                                              │
+│   └── Flight.java                                                  │
+│                                                                     │
+│ com.wipro.flight.dao                                               │
+│   └── FlightDAO.java                                               │
+│       • getComputedId(String name, String seqName)                 │
+│       • addFlight(Flight flight)                                   │
+│                                                                     │
+│ com.wipro.flight.service                                           │
+│   └── FlightService.java                                           │
+│       • createFlight(Flight flight)                                │
+│                                                                     │
+│ com.wipro.flight.util                                              │
+│   └── DBUtil.java                                                  │
+│       • getDBConnection()                                          │
+└─────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ DATABASE OBJECTS                                                    │
+├─────────────────────────────────────────────────────────────────────┤
+│ Table Name:    Flight_Tbl                                          │
+│ Sequence Name: FlightId_Seq (starts at 10000)                     │
+└─────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ FLIGHT ID FORMAT                                                    │
+├─────────────────────────────────────────────────────────────────────┤
+│ Pattern:  [2 Letters][5 Digits]                                   │
+│ Example:  IN10000, SP10001, EM10002                                │
+│ Logic:    First 2 letters (uppercase) + Sequence value             │
+└─────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ RETURN VALUES                                                       │
+├─────────────────────────────────────────────────────────────────────┤
+│ "SUCCESS"       - Operation completed successfully                 │
+│ "FAIL"          - Operation failed (null input or exception)       │
+│ "INVALID_INPUT" - Invalid parameters provided                      │
+└─────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ DATABASE SETUP (Quick)                                             │
+├─────────────────────────────────────────────────────────────────────┤
+│ 1. sqlplus / as sysdba                                             │
+│ 2. CREATE USER B3980612345 IDENTIFIED BY B3980612345;              │
+│ 3. GRANT connect, resource TO B3980612345;                         │
+│ 4. COMMIT;                                                          │
+│ 5. EXIT;                                                            │
+│ 6. sqlplus B3980612345/B3980612345@XE                              │
+│ 7. Run commands from database_setup.sql                            │
+│ 8. COMMIT;                                                          │
+│ 9. EXIT;                                                            │
+└─────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ SUBMISSION CHECKLIST                                                │
+├─────────────────────────────────────────────────────────────────────┤
+│ □ Zip ONLY the src folder                                          │
+│ □ File name: <employee_number>.zip                                 │
+│ □ Extension is .zip (not .7z or .rar)                              │
+│ □ All package names match exactly                                  │
+│ □ All class names match exactly                                    │
+│ □ All method names match exactly                                   │
+│ □ No System.exit(0) in code                                        │
+│ □ Database credentials are correct                                 │
+│ □ Code compiles without errors                                     │
+└─────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ CREATE ZIP FILE                                                     │
+├─────────────────────────────────────────────────────────────────────┤
+│ Using Script:                                                       │
+│   ./create_submission_zip.sh <employee_number>                     │
+│                                                                     │
+│ Manual (Linux/Mac):                                                 │
+│   zip -r <employee_number>.zip src                                 │
+│                                                                     │
+│ Manual (Windows):                                                   │
+│   Right-click src folder → Send to → Compressed folder             │
+└─────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ PBLAPP LOGIN                                                        │
+├─────────────────────────────────────────────────────────────────────┤
+│ URL:      https://talentnext.wipro.com/PBLApp                      │
+│ Email:    ksdhande_it@jspmrscoe.edu.in                             │
+│ ID:       2520062                                                   │
+│ Password: TalentNext##123                                           │
+└─────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ VALIDATION RULES (getComputedId)                                   │
+├─────────────────────────────────────────────────────────────────────┤
+│ name == null               → "FAIL"                                │
+│ seqName == null            → "FAIL"                                │
+│ name.length() < 2          → "INVALID_INPUT"                       │
+│ First 2 chars not letters  → "INVALID_INPUT"                       │
+│ seqName != "FlightId_Seq"  → "INVALID_INPUT"                       │
+│ Database error             → "FAIL"                                │
+│ Otherwise                  → Generated ID                           │
+└─────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ VALIDATION RULES (createFlight)                                    │
+├─────────────────────────────────────────────────────────────────────┤
+│ flight == null             → "FAIL"                                │
+│ ID generation failed       → "INVALID_INPUT"                       │
+│ Insertion failed           → "FAIL"                                │
+│ Otherwise                  → "SUCCESS"                             │
+└─────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ TEST SCENARIOS                                                      │
+├─────────────────────────────────────────────────────────────────────┤
+│ 1. FlightId computation for valid inputs                           │
+│ 2. FlightId computation for invalid sequence name                  │
+│ 3. FlightId computation with invalid name                          │
+│ 4. FlightId computation with valid values                          │
+│ 5. addFlight method with invalid values                            │
+│ 6. createFlight method with invalid values                         │
+│ 7. createFlight method for null values                             │
+│ 8. createFlight method with valid values                           │
+└─────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ COMMON ERRORS TO AVOID                                             │
+├─────────────────────────────────────────────────────────────────────┤
+│ ✗ Wrong package names (case-sensitive!)                            │
+│ ✗ Wrong sequence name (must be "FlightId_Seq")                     │
+│ ✗ Wrong table name (must be "Flight_Tbl")                          │
+│ ✗ Incorrect return values                                          │
+│ ✗ Using System.exit(0)                                             │
+│ ✗ Submitting entire project instead of src folder                  │
+│ ✗ Wrong zip file format or extension                               │
+└─────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ DOCUMENTATION FILES                                                 │
+├─────────────────────────────────────────────────────────────────────┤
+│ README.md                 - Complete project documentation          │
+│ DATABASE_SETUP_GUIDE.md   - Detailed database setup guide          │
+│ SUBMISSION_GUIDE.md       - Step-by-step submission instructions    │
+│ PROJECT_SUMMARY.txt       - Comprehensive project summary           │
+│ QUICK_REFERENCE.txt       - This quick reference card               │
+│ database_setup.sql        - SQL script for database setup           │
+│ create_submission_zip.sh  - Script to create submission zip         │
+└─────────────────────────────────────────────────────────────────────┘
+
+╔═══════════════════════════════════════════════════════════════════════╗
+║                    PRINT THIS FOR YOUR REFERENCE                      ║
+╚═══════════════════════════════════════════════════════════════════════╝
